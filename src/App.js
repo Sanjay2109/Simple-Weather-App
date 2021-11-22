@@ -86,7 +86,6 @@ function App() {
               <div className="temp">{Math.round(weather.main.temp)}°c</div>
               <div className="weather">
                 Main: {weather.weather[0].main}{" "}
-                {/* <Image href={imageUrl + weather.weather[0].icon + ".png"} /> */}
                 <img
                   src={imageUrl + weather.weather[0].icon + ".png"}
                   alt="Logo"
