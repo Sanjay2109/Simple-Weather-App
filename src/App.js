@@ -5,7 +5,7 @@ import React, { useState } from "react";
 // };
 
 const mapApi = {
-  base: "https://ima  ge.maps.ls.hereapi.com/mia/1.6/mapview?apiKey=jhw6OODF_kcD6tEinAYP6tnM_qw0G4_6UAlt5u9R-qU&pview=ARG&w=350&h=350&z=5",
+  base: "https://image.maps.ls.hereapi.com/mia/1.6/mapview?apiKey=jhw6OODF_kcD6tEinAYP6tnM_qw0G4_6UAlt5u9R-qU&pview=ARG&w=350&h=350&z=5",
 };
 
 const icon = {
