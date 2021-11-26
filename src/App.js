@@ -1,35 +1,64 @@
 import React, { useState } from "react";
-const api = {
-  key: "a033095717e3d13b07057f3725502834",
-  base: "https://api.openweathermap.org/data/2.5/",
+// const api = {
+//   key: "a033095717e3d13b07057f3725502834",
+//   base: "https://api.openweathermap.org/data/2.5/",
+// };
+
+const mapApi = {
+  base: "https://ima  ge.maps.ls.hereapi.com/mia/1.6/mapview?apiKey=jhw6OODF_kcD6tEinAYP6tnM_qw0G4_6UAlt5u9R-qU&pview=ARG&w=350&h=350&z=5",
+};
+
+const icon = {
+  base: "http://openweathermap.org/img/wn/",
+  end: "@2x.png",
 };
 
 function App() {
   const [query, setQuery] = useState("");
   const [weather, setWeather] = useState({});
+  const [astroData, setAstroData] = useState({});
 
   const search = (event) => {
     if (event.key === "Enter") {
-      fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
+      fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${query}&units=metric&APPID=a033095717e3d13b07057f3725502834`
+      )
         .then((res) => res.json())
         .then((result) => {
           setQuery("");
-          console.log("weather result: ");
+          console.log("Weather result: ");
           console.log(result);
           fetch(
-            `https://api.opencagedata.com/geocode/v1/json?q=${query}&key=000594ff6b2744c59c5381e9948cef87 `
+            `https://api.opencagedata.com/geocode/v1/json?q=${query}&key=000594ff6b2744c59c5381e9948cef87`
           )
             .then((res) => res.json())
             .then((result2) => {
-              console.log("Result2: ");
-              console.log(result2["results"][0]["geometry"]["lat"]);
-              console.log(result2["results"][0]["geometry"]["lng"]);
+              console.log("Latitude and Longitude: ");
+              console.log(`Lat: ${result2["results"][0]["geometry"]["lat"]}`);
+              console.log(`Lon: ${result2["results"][0]["geometry"]["lng"]}`);
               result["weatherLatLon"] = result2["results"][0]["geometry"];
               console.log(result["weatherLatLon"]);
               setWeather(result);
             });
         });
+      const date = new Date();
+      console.log(date.toISOString().split("T")[0]);
+      fetch(
+        `https://api.weatherapi.com/v1/astronomy.json?key=2daa2961afe54bf692f141623212108%20&q=Chennai&dt${
+          date.toISOString().split("T")[0]
+        }`
+      )
+        .then((res) => res.json())
+        .then((result) => {
+          console.log("The astro result: ");
+          console.log(result["astronomy"]);
+          setAstroData(result["astronomy"]);
+        });
     }
+  };
+
+  const capitalize = (word) => {
+    return word[0].toUpperCase() + word.slice(1).toLowerCase();
   };
 
   const dateBuilder = (d) => {
@@ -80,7 +109,7 @@ function App() {
           <input
             type="text"
             className="search-bar"
-            placeholder="Search for a state...."
+            placeholder="Search for a place...."
             onChange={(e) => setQuery(e.target.value)}
             value={query}
             onKeyPress={search}
@@ -96,29 +125,27 @@ function App() {
             </div>
             <div className="weather-box">
               <div className="temp">{Math.round(weather.main.temp)}°c</div>
+              <span> | {capitalize(weather.weather[0].description)}</span>
               <div className="weather">
-                Latitude: {weather.weatherLatLon.lat}°
-              </div>
-              <div className="weather">
-                Longitude: {weather.weatherLatLon.lng}°
-              </div>
-              <div className="weather">
-                Sky: {weather.weather[0]["description"]}
-              </div>
-              <div className="weather">
+                {" "}
                 <img
-                  src={"https://cdn-icons-png.flaticon.com/128/632/632517.png"}
-                  width="50"
-                  height="60"
+                  src={`${icon.base}${weather["weather"][0]["icon"]}${icon.end}`}
+                  width="95"
+                  height="100"
                   alt="Logo"
                 />
-                Pressure: {weather.main.pressure} Pa
+                {weather.weather[0]["main"]}
               </div>
-              <div className="weather">Humidity: {weather.main.humidity} %</div>
+
+              {/* <div className="weather">🌅 {astroData.astro.sunrise}</div> */}
+              <div className="weather">🌆 {astroData.astro.sunset}</div>
+              <div className="weather">
+                Moon phase: {astroData.astro.moon_phase}
+              </div>
             </div>
           </div>
         ) : (
-          <div></div>
+          <div>{/* <script /> */}</div>
         )}
       </main>
     </div>
@@ -126,3 +153,5 @@ function App() {
 }
 
 export default App;
+
+//url to the website is "https://simplest-weather-app.netlify.app". :)
