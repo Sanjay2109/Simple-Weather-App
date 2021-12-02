@@ -154,4 +154,4 @@ function App() {
 
 export default App;
 
-//url to the website is "https://simplest-weather-app.netlify.app". :)
+//url to the website is "justly-weather.netlify.app". :)
